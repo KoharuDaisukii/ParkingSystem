@@ -52,7 +52,7 @@ function App() {
       //   ])
       //   .select();
       //axios 사용시
-      const response = await axios.get("/history/", {
+      const response = await axios.post("/park/in", {
         admin_id: "A11111",
         car_no: carNum,
         enter_time: new Date(inTime),
