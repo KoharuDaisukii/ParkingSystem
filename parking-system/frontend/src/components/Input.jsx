@@ -29,7 +29,9 @@ function Input({ onSubmit, onClick }) {
         <div className="carData text-xs flex-col justify-center items-center">
           <div className="flex-col my-1 text-center">
             <div className="my-2">
-              <label htmlFor="inTime">입차시간</label>
+              <label htmlFor="inTime" className="mr-1 font-bold">
+                입차
+              </label>
               <input
                 type="datetime-local"
                 name="inTime"
@@ -39,7 +41,9 @@ function Input({ onSubmit, onClick }) {
               />
             </div>
             <div>
-              <label htmlFor="outTime">출차시간</label>
+              <label htmlFor="outTime" className="mr-1">
+                출차
+              </label>
               <input
                 type="datetime-local"
                 name="outTime"
