@@ -12,20 +12,19 @@ function Input({ onSubmit, onClick }) {
               </option>
             ))}
           </select>
-          <input
-            type="text"
-            name="carNum"
-            placeholder="차량번호"
-            className="mx-2"
-          />
-
-          <select name="region" id="region">
+          <select name="region" id="region" className="mx-1">
             {regionList.map((regionItem, index) => (
               <option value={regionItem} key={index}>
                 {regionItem}
               </option>
             ))}
           </select>
+          <input
+            type="text"
+            name="carNum"
+            placeholder="차량번호"
+            className="mx-2"
+          />
         </div>
         <div className="carData text-xs flex-col justify-center items-center">
           <div className="flex-col my-1 text-center">
@@ -54,14 +53,14 @@ function Input({ onSubmit, onClick }) {
           <div className="btnContainer flex justify-around">
             <button
               type="submit"
-              className="bg-blue-400 hover:bg-blue-500 h-20 w-20 rounded-3xl"
+              className="bg-blue-400 hover:bg-blue-500 h-20 w-20 rounded-3xl mr-2"
             >
               <span className="text-xl font-bold">입차</span>
             </button>
-            <button className="bg-red-400 hover:bg-red-500 h-20 w-20 rounded-3xl">
+            <button className="bg-red-400 hover:bg-red-500 h-20 w-20 rounded-3xl mr-2">
               <span className="text-xl font-bold">출차</span>
             </button>
-            <button className="bg-green-400 hover:bg-green-500 h-20 w-20 rounded-3xl">
+            <button className="bg-green-400 hover:bg-green-500 h-20 w-20 rounded-3xl mr-2">
               <span className="text-xl font-bold">조회</span>
             </button>
             <button

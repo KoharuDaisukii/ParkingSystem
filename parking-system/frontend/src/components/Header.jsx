@@ -1,7 +1,7 @@
 function Header() {
   return (
-    <div className="flex justify-center">
-      <div className="text-xl">Parking Management System</div>
+    <div className="flex justify-center font-honk">
+      <div className="text-3xl">Parking Management System</div>
     </div>
   );
 }
