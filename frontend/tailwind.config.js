@@ -4,7 +4,7 @@ export default {
   theme: {
     extend: {
       fontFamily: {
-        honk: ["honk", "system-ui"],
+        noto: ["Noto Sans KR", "sans-serif"],
       },
     },
     plugins: [],

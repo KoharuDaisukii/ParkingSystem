@@ -25,6 +25,7 @@ function Input({ onSubmit, onClick }) {
             placeholder="차량번호"
             className="mx-2"
           />
+          <input type="file" name="carPhoto" id="" />
         </div>
         <div className="carData text-xs flex-col justify-center items-center">
           <div className="flex-col my-1 text-center">

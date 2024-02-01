@@ -2,6 +2,7 @@ import { formatDateTime } from "../utils/formatDateTime";
 import { fareCal } from "../utils/fareCal";
 import { getTimeDiffByMin } from "../utils/getTimeDiffByMin";
 import { Link } from "react-router-dom";
+
 function ParkList({ cars }) {
   return (
     <div className="flex justify-center">
@@ -30,9 +31,18 @@ function ParkList({ cars }) {
                 {formatDateTime(car.enter_time)}
               </th>
               <th className="border border-slate-700">
-                {car.exit_time !== null
-                  ? formatDateTime(car.exit_time)
-                  : "미출차"}
+                {car.exit_time !== null ? (
+                  formatDateTime(car.exit_time)
+                ) : (
+                  <button
+                    onClick={() => {
+                      alert(`${new Date()} 출차되었습니다!`);
+                      //출차로직
+                    }}
+                  >
+                    출차
+                  </button>
+                )}
               </th>
               <th className="border border-slate-700">
                 {getTimeDiffByMin(car.exit_time, car.enter_time) >= 1

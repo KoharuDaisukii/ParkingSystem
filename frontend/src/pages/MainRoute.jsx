@@ -34,6 +34,7 @@ function MainRoute() {
     const outTime = e.target.outTime.value;
     const region = e.target.region.value || null;
     const sector = e.target.sector.value;
+    const carPhoto = e.target.carPhoto.value;
 
     if (carNum !== null && carNum !== "") {
       //수파베이스 사용시
@@ -52,9 +53,12 @@ function MainRoute() {
       //axios 사용시
       const response = await axios.post("/park/in", {
         admin_id: "A11111",
+        park_area: 1,
+        park_spot: 1,
+        car_region_name: "대구",
         car_no: carNum,
         enter_time: new Date(inTime),
-        photo: "photo",
+        photo: carPhoto,
       });
       console.log(response);
       setCars(response.data);

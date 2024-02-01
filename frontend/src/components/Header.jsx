@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 
 function Header() {
   return (
-    <div className="flex-col font-honk my-5">
+    <div className="flex-col font-noto my-5">
       <div className="text-3xl text-center">
         <Link to="/">Parking Management System</Link>
       </div>
