@@ -35,6 +35,7 @@ function ParkList({ cars }) {
                   formatDateTime(car.exit_time)
                 ) : (
                   <button
+                    className="bg-red-400 hover:opacity-85 rounded-lg p-4"
                     onClick={() => {
                       alert(`${formatDateTime(new Date())} 출차되었습니다!`);
                       //출차로직
@@ -56,17 +57,6 @@ function ParkList({ cars }) {
           ))}
         </tbody>
       </table>
-      {/* <ul className="text-xs">
-        {cars.map((car) => (
-          <li key={car.id} className="flex my-1">
-            <div className="carNum font-bold mx-1">차량번호: {car.car_num}</div>
-            <div className="inTime mx-1">
-              입차: {formatDateTime(car.enter_time)}
-            </div>
-            <div className="outTime">출차: {formatDateTime(car.exit_time)}</div>
-          </li>
-        ))}
-      </ul> */}
     </div>
   );
 }
