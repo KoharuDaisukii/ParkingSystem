@@ -36,7 +36,7 @@ function ParkList({ cars }) {
                 ) : (
                   <button
                     onClick={() => {
-                      alert(`${new Date()} 출차되었습니다!`);
+                      alert(`${formatDateTime(new Date())} 출차되었습니다!`);
                       //출차로직
                     }}
                   >

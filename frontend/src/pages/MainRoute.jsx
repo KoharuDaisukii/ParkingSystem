@@ -37,20 +37,6 @@ function MainRoute() {
     const carPhoto = e.target.carPhoto.value;
 
     if (carNum !== null && carNum !== "") {
-      //수파베이스 사용시
-      // const { data, error } = await supabase
-      //   .from("page1")
-      //   .insert([
-      //     {
-      //       car_num: carNum,
-      //       in_time: new Date(inTime),
-      //       out_time: new Date(outTime),
-      //       region: region,
-      //       sector: sector,
-      //     },
-      //   ])
-      //   .select();
-      //axios 사용시
       const response = await axios.post("/park/in", {
         admin_id: "A11111",
         park_area: 1,
