@@ -1,7 +1,7 @@
 import Header from "./components/Header";
 import Input from "./components/Input";
 import ParkList from "./components/ParkList";
-import MainRoute from "./routes/MainRoute";
+import MainRoute from "./pages/MainRoute";
 import Login from "./components/Login";
 import {
   createBrowserRouter,
@@ -10,6 +10,7 @@ import {
   RouterProvider,
 } from "react-router-dom";
 import RootLayout from "./pages/Root";
+import CarDetail from "./pages/CarDetail";
 
 const router = createBrowserRouter([
   {
@@ -21,6 +22,7 @@ const router = createBrowserRouter([
         element: <MainRoute />,
       },
       { path: "login", element: <Login /> },
+      { path: "car/:carId", element: <CarDetail /> },
     ],
   },
 ]);
