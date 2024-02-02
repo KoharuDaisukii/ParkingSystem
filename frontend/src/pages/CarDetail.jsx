@@ -3,10 +3,9 @@ import { useParams } from "react-router-dom";
 function CarDetail() {
   const params = useParams();
   return (
-    <div>
-      <h1>CarDetail</h1>
-      <p>이미지가 들어갈 자리입니다~</p>
-      <p>{params.carId}</p>
+    <div className="text-center">
+      <p>이미지</p>
+      <p className="text-xl">{params.carId}</p>
     </div>
   );
 }

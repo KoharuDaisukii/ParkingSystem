@@ -2,7 +2,7 @@ import Header from "./components/Header";
 import Input from "./components/Input";
 import ParkList from "./components/ParkList";
 import MainRoute from "./pages/MainRoute";
-import Login from "./components/Login";
+import Login from "./pages/Login";
 import {
   createBrowserRouter,
   Routes,

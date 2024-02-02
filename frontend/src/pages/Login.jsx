@@ -4,9 +4,9 @@ function Login() {
   //   const { id, password } = useParams();
 
   return (
-    <div className="loginForm flex justify-center">
-      <form className="flex">
-        <div className="inputConainer flex-col mx-2">
+    <div className="loginForm flex justify-center items-center">
+      <form className="flex-col border">
+        <div className="inputConainer flex-col mx-2 p-11">
           <div className="inputId mb-1">
             <input type="text" name="id" placeholder="id를 입력하세요" />
           </div>
@@ -18,7 +18,11 @@ function Login() {
             />
           </div>
         </div>
-        <button className="text-blue-600 hover:text-blue-800">로그인</button>
+        <div className="text-center">
+          <button className="text-blue-600 hover:text-blue-800 p-2">
+            로그인
+          </button>
+        </div>
       </form>
     </div>
   );

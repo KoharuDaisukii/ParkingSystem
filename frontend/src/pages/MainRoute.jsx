@@ -3,6 +3,7 @@ import ParkList from "../components/ParkList";
 import { useState, useEffect } from "react";
 
 import axios from "axios";
+import LoginNav from "../components/LoginNav";
 function MainRoute() {
   const [cars, setCars] = useState([]);
   useEffect(() => {
@@ -34,19 +35,29 @@ function MainRoute() {
     const outTime = e.target.outTime.value;
     const region = e.target.region.value || null;
     const sector = e.target.sector.value;
-    const carPhoto = e.target.carPhoto.value;
 
+    //파일 업로드를 위한 코드
+    const carPhoto = e.target.carPhoto.files[0];
+
+    // console.log(carPhoto);
     if (carNum !== null && carNum !== "") {
-      const response = await axios.post("/park/in", {
-        admin_id: "A11111",
-        park_area: 1,
-        park_spot: 1,
-        car_region_name: "대구",
-        car_no: carNum,
-        enter_time: new Date(inTime),
-        photo: carPhoto,
+      const response = await axios({
+        method: "post",
+        url: "park/in",
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+        params: {
+          admin_id: "A11111",
+          park_area: 1,
+          park_spot: 1,
+          car_region_name: "대구",
+          car_no: "11가나123",
+          enter_time: "2024-02-02T13:52:52",
+          photo: carPhoto,
+        },
       });
-      console.log(response);
+      console.log("response", response);
       setCars(response.data);
       console.log("cars", cars);
       e.target.carNum.value = "";
@@ -66,6 +77,8 @@ function MainRoute() {
   return (
     <div>
       <div className="flex-col">
+        <LoginNav />
+
         <Input onSubmit={handleSubmit} onClick={handleClick} />
         <ParkList cars={cars} setCars={setCars} />
       </div>

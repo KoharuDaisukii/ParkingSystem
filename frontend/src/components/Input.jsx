@@ -3,52 +3,62 @@ import { sectorList } from "./sectorList";
 function Input({ onSubmit, onClick }) {
   return (
     <div className="inputConainer flex justify-center">
-      <form className="inputForm" onSubmit={onSubmit}>
-        <div className="carInfo my-3">
-          <select name="sector" id="sector">
-            {sectorList.map((sectorItem, index) => (
-              <option value={sectorItem} key={index}>
-                {sectorItem}
-              </option>
-            ))}
-          </select>
-          <select name="region" id="region" className="mx-1">
-            {regionList.map((regionItem, index) => (
-              <option value={regionItem} key={index}>
-                {regionItem}
-              </option>
-            ))}
-          </select>
+      <form
+        className="inputForm flex-col"
+        action="/save"
+        onSubmit={onSubmit}
+        // encType="multipart/form-data"
+      >
+        <div className="carInfo my-3 text-center">
           <input
             type="text"
             name="carNum"
             placeholder="차량번호"
-            className="mx-2"
+            className="inputCarNum w-80 h-14"
           />
-          <input type="file" name="carPhoto" id="" />
+          <div className="selectContainer flex justify-around my-2">
+            <select name="sector" id="sector" className="w-36">
+              {sectorList.map((sectorItem, index) => (
+                <option value={sectorItem} key={index}>
+                  {sectorItem}
+                </option>
+              ))}
+            </select>
+            <select name="region" id="region" className="mx-1 w-36">
+              {regionList.map((regionItem, index) => (
+                <option value={regionItem} key={index}>
+                  {regionItem}
+                </option>
+              ))}
+            </select>
+          </div>
+        </div>
+        <div className="flex justify-center">
+          <input
+            type="file"
+            name="carPhoto"
+            className="my-3 text-center"
+            accept=".png, .jpeg, .jpg"
+          />
         </div>
         <div className="carData text-xs flex-col justify-center items-center">
-          <div className="flex-col my-1 text-center">
-            <div className="my-2">
+          <div className="flex mb-3 justify-around items-center">
+            <div>
               <label htmlFor="inTime" className="mr-1 font-bold">
                 입차
               </label>
               <input
                 type="datetime-local"
                 name="inTime"
-                id=""
                 className="font-bold"
                 placeholder="입차시간"
               />
             </div>
             <div>
-              <label htmlFor="outTime" className="mr-1">
-                출차
-              </label>
+              <label htmlFor="outTime">출차</label>
               <input
                 type="datetime-local"
                 name="outTime"
-                id=""
                 className="font-bold"
                 placeholder="출차시간"
               />
@@ -62,10 +72,8 @@ function Input({ onSubmit, onClick }) {
             >
               <span className="text-xl font-bold">입차</span>
             </button>
-            <button className="bg-red-400 hover:bg-red-500 h-20 w-20 rounded-3xl mr-2">
-              <span className="text-xl font-bold">출차</span>
-            </button>
-            <button className="bg-green-400 hover:bg-green-500 h-20 w-20 rounded-3xl mr-2">
+
+            <button className="bg-green-400 hover:bg-green-500 h-20 w-20 rounded-3xl">
               <span className="text-xl font-bold">조회</span>
             </button>
             <button
