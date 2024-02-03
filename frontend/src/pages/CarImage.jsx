@@ -3,14 +3,15 @@ import axios from "axios";
 import { useParams } from "react-router-dom";
 function CarImage() {
   const params = useParams();
-  //   const data = useLoaderData();
-  //   console.log("data", data);
-  return <img src={`http://localhost:5173/image?id=${params.id}`} />;
+
+  return (
+    <div className="flex justify-center">
+      <img
+        src={`http://localhost:5173/image?id=${params.id}`}
+        alt="car image"
+        className="w-72 h-72"
+      />
+    </div>
+  );
 }
 export default CarImage;
-
-export async function loader({ requests, params }) {
-  const id = params.id;
-  const response = await axios.get("/image?id=" + id);
-  return response;
-}
