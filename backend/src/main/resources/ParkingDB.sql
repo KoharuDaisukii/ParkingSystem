@@ -49,9 +49,9 @@ INSERT INTO HISTORY(admin_id, park_area, park_spot, car_region_no, car_no) VALUE
 
 CREATE TABLE PARK_IMAGE(
 	history_id INT NOT NULL UNIQUE,
-	image_name CHAR(42) NOT NULL,
+	image_name CHAR(47) NOT NULL,
 	
-	CONSTRAINT history_id_FK FOREIGN KEY (history_id) REFERENCES HISTORY(id)
+	CONSTRAINT history_id_FK FOREIGN KEY (history_id) REFERENCES HISTORY(id) ON DELETE CASCADE
 );
 
 INSERT INTO PARK_IMAGE VALUES(2, LOAD_FILE('C:\\ProgramData\\MySQL\\MySQL Server 8.3\\Uploads\\suga_zinza.jpg'));
