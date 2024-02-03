@@ -1,10 +1,19 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="EUC-KR">
+<meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
 <body>
-	떴냐
+	<form action="/park/in" method="post" enctype="multipart/form-data" accept_charset="UTF-8">
+		admin<input type="text" name="admin_id" /> 
+		park_area<input type="text" name="park_area" />
+		park_spot<input type="text" name="park_spot" /> 
+		car_region_name<input type="text" name="car_region_name" />
+		car_no<input type="text" name="car_no" /> 
+		enter_time<input type="text" name="enter_time" />
+		photo<input type="file" name="photo" />
+		<button type="submit">�쟾�넚</button>
+	</form>
 </body>
 </html>
