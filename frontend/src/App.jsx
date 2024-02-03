@@ -10,7 +10,7 @@ import {
   RouterProvider,
 } from "react-router-dom";
 import RootLayout from "./pages/Root";
-import CarDetail from "./pages/CarDetail";
+import CarDetail, { loader as carDetailLoader } from "./pages/CarDetail";
 
 const router = createBrowserRouter([
   {
@@ -22,7 +22,7 @@ const router = createBrowserRouter([
         element: <MainRoute />,
       },
       { path: "login", element: <Login /> },
-      { path: "car/:carId", element: <CarDetail /> },
+      { path: "car/:carId", element: <CarDetail />, loader: carDetailLoader },
     ],
   },
 ]);

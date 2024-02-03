@@ -1,1 +1,1 @@
-export const sectorList = ["섹터1", "섹터2", "섹터3"];
+export const sectorList = [1, 2, 3];
