@@ -1,20 +1,16 @@
 import axios from "axios";
 import { useLoaderData } from "react-router-dom";
+import RenderCarDetail from "../components/RenderCarDetail";
 function CarDetail() {
   const data = useLoaderData();
   console.log(data);
-  return (
-    <div className="text-center">
-      <p>이미지</p>
-      {/* <p className="text-xl">{d}</p> */}
-    </div>
-  );
+  return <RenderCarDetail item={data} />;
 }
 
 export default CarDetail;
 
 export async function loader({ requests, params }) {
-  const carId = params.carId;
-  const response = await axios.get("/history?carId=" + id);
+  const id = params.car_no;
+  const response = await axios.get("/history?car_no=" + id);
   return response;
 }

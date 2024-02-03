@@ -7,7 +7,8 @@ function Input({ onSubmit, onClick, onChange }) {
       <form
         className="inputForm flex-col"
         onSubmit={onSubmit}
-        // encType="multipart/form-data"
+        encType="multipart/form-data"
+        accept_charset="UTF-8"
       >
         <div className="carInfo my-3 text-center">
           <input
