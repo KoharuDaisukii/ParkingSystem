@@ -5,7 +5,6 @@ function Input({ onSubmit, onClick }) {
     <div className="inputConainer flex justify-center">
       <form
         className="inputForm flex-col"
-        action="/save"
         onSubmit={onSubmit}
         // encType="multipart/form-data"
       >
@@ -15,6 +14,7 @@ function Input({ onSubmit, onClick }) {
             name="carNum"
             placeholder="차량번호"
             className="inputCarNum w-80 h-14"
+            required
           />
           <div className="selectContainer flex justify-around my-2">
             <select name="sector" id="sector" className="w-36">
@@ -42,8 +42,8 @@ function Input({ onSubmit, onClick }) {
           />
         </div>
         <div className="carData text-xs flex-col justify-center items-center">
-          <div className="flex mb-3 justify-around items-center">
-            <div>
+          {/* <div className="flex mb-3 justify-around items-center"> */}
+          {/* <div>
               <label htmlFor="inTime" className="mr-1 font-bold">
                 입차
               </label>
@@ -64,7 +64,7 @@ function Input({ onSubmit, onClick }) {
               />
             </div>
             <hr className="my-2" />
-          </div>
+          </div> */}
           <div className="btnContainer flex justify-around">
             <button
               type="submit"
