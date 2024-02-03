@@ -11,21 +11,8 @@ import {
 } from "react-router-dom";
 import RootLayout from "./pages/Root";
 import CarDetail, { loader as carDetailLoader } from "./pages/CarDetail";
+import { router } from "./utils/router";
 
-const router = createBrowserRouter([
-  {
-    path: "/",
-    element: <RootLayout />,
-    children: [
-      {
-        index: true,
-        element: <MainRoute />,
-      },
-      { path: "login", element: <Login /> },
-      { path: "car/:carId", element: <CarDetail />, loader: carDetailLoader },
-    ],
-  },
-]);
 function App() {
   return <RouterProvider router={router} />;
 }

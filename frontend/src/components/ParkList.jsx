@@ -11,7 +11,7 @@ function ParkList({ cars }) {
         <thead>
           <tr>
             <th className="border border-slate-600">차량번호</th>
-            {/* <th className="border border-slate-600">사진</th> */}
+            <th className="border border-slate-600">사진</th>
             <th className="border border-slate-600">지역명</th>
             <th className="border border-slate-600">입차시간</th>
             <th className="border border-slate-600">출차시간</th>
@@ -20,11 +20,16 @@ function ParkList({ cars }) {
           </tr>
         </thead>
         <tbody>
+          {/* // 오류 해결해야함 */}
           {cars.map((car) => (
             <tr key={car.id}>
               <th className="border border-slate-700">
                 <Link to={`car/${car.car_no}`}>{car.car_no}</Link>
               </th>
+              <th className="border border-slate-700">
+                <Link to={`car/${car.id}/image`}>{car.id}</Link>
+              </th>
+
               {/* <th className="border border-slate-700">{car.photo}</th> */}
               <th className="border border-slate-700">{car.region}</th>
               <th className="border border-slate-700">
