@@ -37,7 +37,7 @@ function MainRoute() {
     const sector = e.target.sector.value;
 
     //파일 업로드를 위한 코드
-    const carPhoto = e.target.carPhoto.files[0];
+    const carPhoto = e.target.carPhoto.value;
 
     // console.log(carPhoto);
     if (carNum !== null && carNum !== "") {
