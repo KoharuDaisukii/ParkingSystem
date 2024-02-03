@@ -1,6 +1,7 @@
+import { useState } from "react";
 import { regionList } from "./regionList";
 import { sectorList } from "./sectorList";
-function Input({ onSubmit, onClick }) {
+function Input({ onSubmit, onClick, onChange }) {
   return (
     <div className="inputConainer flex justify-center">
       <form
@@ -11,20 +12,31 @@ function Input({ onSubmit, onClick }) {
         <div className="carInfo my-3 text-center">
           <input
             type="text"
-            name="carNum"
+            name="car_no"
             placeholder="차량번호"
             className="inputCarNum w-80 h-14"
             required
           />
           <div className="selectContainer flex justify-around my-2">
-            <select name="sector" id="sector" className="w-36">
+            <select name="park_area" id="park_area" className="w-36">
               {sectorList.map((sectorItem, index) => (
                 <option value={sectorItem} key={index}>
                   {sectorItem}
                 </option>
               ))}
             </select>
-            <select name="region" id="region" className="mx-1 w-36">
+            <select name="park_spot" id="park_spot" className="w-36">
+              {sectorList.map((sectorItem, index) => (
+                <option value={sectorItem} key={index}>
+                  {sectorItem}
+                </option>
+              ))}
+            </select>
+            <select
+              name="car_region_name"
+              id="car_region_name"
+              className="mx-1 w-36"
+            >
               {regionList.map((regionItem, index) => (
                 <option value={regionItem} key={index}>
                   {regionItem}
@@ -36,9 +48,10 @@ function Input({ onSubmit, onClick }) {
         <div className="flex justify-center">
           <input
             type="file"
-            name="carPhoto"
+            name="photo"
             className="my-3 text-center"
             accept=".png, .jpeg, .jpg"
+            onChange={onChange}
           />
         </div>
         <div className="carData text-xs flex-col justify-center items-center">
