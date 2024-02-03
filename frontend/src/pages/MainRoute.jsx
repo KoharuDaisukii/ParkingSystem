@@ -52,11 +52,6 @@ function MainRoute() {
     // const sector = e.target.sector.value;
 
     //파일 업로드를 위한 코드
-<<<<<<< HEAD
-    const carPhoto = e.target.carPhoto.value;
-=======
-    // const carPhoto = e.target.carPhoto.files[0];
->>>>>>> 78d8482d4d008b54913f41189815050106d74df3
 
     // console.log(carPhoto);
     if (data.carNum !== null && data.carNum !== "") {
