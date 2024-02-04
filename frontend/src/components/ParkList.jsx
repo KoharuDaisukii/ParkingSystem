@@ -41,7 +41,9 @@ function ParkList({ cars }) {
               {/* <th className="border border-slate-700">{car.photo}</th> */}
               <th className="border border-slate-700">
                 <span>
-                  {car.car_region_no !== 0 ? regionList[car.car_region_no] : ""}
+                  {car.car_region_nocar_region_no !== 0
+                    ? regionList[car.car_region_no]
+                    : ""}
                 </span>
               </th>
               <th className="border border-slate-700">
