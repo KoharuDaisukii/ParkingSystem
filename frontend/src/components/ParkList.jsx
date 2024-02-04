@@ -2,6 +2,7 @@ import { formatDateTime } from "../utils/formatDateTime";
 import { fareCal } from "../utils/fareCal";
 import { getTimeDiffByMin } from "../utils/getTimeDiffByMin";
 import { Link } from "react-router-dom";
+import { regionList } from "./regionList";
 
 function ParkList({ cars }) {
   return (
@@ -27,11 +28,22 @@ function ParkList({ cars }) {
                 <Link to={`car/${car.car_no}`}>{car.car_no}</Link>
               </th>
               <th className="border border-slate-700">
-                <Link to={`car/${car.id}/image`}>{car.id}</Link>
+                <Link to={`car/${car.id}/image`}>
+                  <img
+                    src={`http://localhost:5173/image?id=${car.id}`}
+                    alt="car image"
+                    width="50px"
+                    height="50px"
+                  />
+                </Link>
               </th>
 
               {/* <th className="border border-slate-700">{car.photo}</th> */}
-              <th className="border border-slate-700">{car.region}</th>
+              <th className="border border-slate-700">
+                <span>
+                  {car.car_region_no !== 0 ? regionList[car.car_region_no] : ""}
+                </span>
+              </th>
               <th className="border border-slate-700">
                 {formatDateTime(car.enter_time)}
               </th>
