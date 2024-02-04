@@ -3,8 +3,26 @@ import { fareCal } from "../utils/fareCal";
 import { getTimeDiffByMin } from "../utils/getTimeDiffByMin";
 import { Link } from "react-router-dom";
 import { regionList } from "./regionList";
+import { putData } from "../utils/putData";
+import { formatToISO8601 } from "../utils/convertISO";
+import React, { useState } from "react";
 
 function ParkList({ cars }) {
+  const [parkingCars, setParkingCars] = useState(cars);
+
+  const handleExit = (carId) => {
+    const updatedCars = parkingCars.map((car) => {
+      if (car.id === carId && car.exit_time === null) {
+        const updatedCar = { ...car, exit_time: formatToISO8601(new Date()) };
+        putData(car.id, updatedCar.exit_time);
+        return updatedCar;
+      }
+      return car;
+    });
+
+    setParkingCars(updatedCars);
+  };
+
   return (
     <div className="flex justify-center">
       <hr />
@@ -21,7 +39,7 @@ function ParkList({ cars }) {
         </thead>
         <tbody>
           {/* // 오류 해결해야함 */}
-          {cars.map((car) => (
+          {parkingCars.map((car) => (
             <tr key={car.id}>
               <th className="border border-slate-700">
                 <Link to={`car/${car.car_no}`}>
@@ -49,18 +67,15 @@ function ParkList({ cars }) {
                 {formatDateTime(car.enter_time)}
               </th>
               <th className="border border-slate-700">
-                {car.exit_time !== null ? (
-                  formatDateTime(car.exit_time)
-                ) : (
+                {car.exit_time === null ? (
                   <button
                     className="bg-red-400 hover:opacity-85 rounded-lg p-4"
-                    onClick={() => {
-                      alert(`${formatDateTime(new Date())} 출차되었습니다!`);
-                      //출차로직
-                    }}
+                    onClick={() => handleExit(car.id)}
                   >
                     출차
                   </button>
+                ) : (
+                  formatDateTime(car.exit_time)
                 )}
               </th>
               <th className="border border-slate-700">

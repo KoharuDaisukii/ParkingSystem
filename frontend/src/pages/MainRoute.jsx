@@ -7,6 +7,7 @@ import axios from "axios";
 import LoginNav from "../components/LoginNav";
 function MainRoute() {
   const [files, setFiles] = useState(undefined);
+
   function handleFileChange(e) {
     // console.log(e.target.files[0]);
     setFiles(e.target.files[0]);
@@ -18,7 +19,7 @@ function MainRoute() {
 
   async function getData() {
     // try {
-    const response = await axios.get("/history");
+    const response = await axios.get("/history/all");
     console.log(response);
     setCars(response.data);
   }
@@ -61,7 +62,6 @@ function MainRoute() {
       console.log("cars", cars);
       //form 초기화
 
-      getData();
       alert("입차하였습니다!");
     }
   };
