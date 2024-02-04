@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -16,6 +17,7 @@ import java.util.UUID;
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
@@ -105,6 +107,13 @@ public class JdbcTemplateHistoryRepository implements HistoryRepository {
 		jdbcTemplate.update(sql, keyHolder.getKey(), fileDate + uuid + ext);
 
 		return 1;
+	}
+	
+	@Override
+	public Optional<History> updateExitTime(int id, @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss") LocalDateTime exit_time) {
+		jdbcTemplate.update("UPDATE HISTORY SET exit_time = ? WHERE id = ?", exit_time, id);
+		List<History> result = jdbcTemplate.query("SELECT * FROM HISTORY WHERE id = ?", historyRowMapper(), id);
+		return result.stream().findAny();
 	}
 
 	@Override

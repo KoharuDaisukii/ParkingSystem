@@ -1,5 +1,6 @@
 package knuknu.parkingsystem.repository;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
@@ -8,6 +9,7 @@ import knuknu.parkingsystem.domain.History;
 
 public interface HistoryRepository {
 	int save(HistoryForm historyForm);
+	Optional<History> updateExitTime(int id, LocalDateTime exit_time);
 	Optional<History> findHistoryById(int id);
 	byte[] findPhotoById(int id);
 	List<History> findByAdminID(String admin_id);
