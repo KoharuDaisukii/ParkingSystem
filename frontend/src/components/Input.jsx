@@ -38,6 +38,9 @@ function Input({ onSubmit, onClick, onChange }) {
               id="car_region_name"
               className="mx-1 w-36"
             >
+              <option disabled hidden selected>
+                지역명
+              </option>
               {regionList.map((regionItem, index) => (
                 <option value={regionItem} key={index}>
                   {regionItem}

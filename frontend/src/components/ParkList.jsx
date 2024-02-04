@@ -13,7 +13,6 @@ function ParkList({ cars }) {
           <tr>
             <th className="border border-slate-600">차량번호</th>
             <th className="border border-slate-600">사진</th>
-            <th className="border border-slate-600">지역명</th>
             <th className="border border-slate-600">입차시간</th>
             <th className="border border-slate-600">출차시간</th>
             <th className="border border-slate-600">총 주차시간(분)</th>
@@ -25,7 +24,14 @@ function ParkList({ cars }) {
           {cars.map((car) => (
             <tr key={car.id}>
               <th className="border border-slate-700">
-                <Link to={`car/${car.car_no}`}>{car.car_no}</Link>
+                <Link to={`car/${car.car_no}`}>
+                  <span>
+                    {car.car_region_no !== 0
+                      ? regionList[car.car_region_no]
+                      : ""}
+                  </span>{" "}
+                  {car.car_no}
+                </Link>
               </th>
               <th className="border border-slate-700">
                 <Link to={`car/${car.id}/image`}>
@@ -39,13 +45,6 @@ function ParkList({ cars }) {
               </th>
 
               {/* <th className="border border-slate-700">{car.photo}</th> */}
-              <th className="border border-slate-700">
-                <span>
-                  {car.car_region_nocar_region_no !== 0
-                    ? regionList[car.car_region_no]
-                    : ""}
-                </span>
-              </th>
               <th className="border border-slate-700">
                 {formatDateTime(car.enter_time)}
               </th>
