@@ -58,7 +58,7 @@ function MainRoute() {
   };
   //미납차량 조회를 위한 함수
   const handleClick = async () => {
-    const response = await axios.post("/park/in");
+    const response = await axios.get("/history/unpaid");
     console.log("미납차량정보", response.data);
     setCars(response.data);
   };
