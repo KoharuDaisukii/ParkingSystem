@@ -7,14 +7,14 @@ import { putData } from "../utils/putData";
 import { formatToISO8601 } from "../utils/convertISO";
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-function ParkList() {
-  const [cars, setCars] = useState([]);
+function ParkList({ cars }) {
+  const [newCars, setNewCars] = useState(cars);
   useEffect(() => {
     getData();
   }, []);
 
   const handleExit = async (carId) => {
-    if (cars.some((car) => car.id === carId && car.exit_time === null)) {
+    if (newCars.some((car) => car.id === carId && car.exit_time === null)) {
       await putData(carId, formatToISO8601(new Date()));
       alert(formatToISO8601(new Date()));
     }
@@ -25,7 +25,7 @@ function ParkList() {
     try {
       const response = await axios.get("/history/all");
       console.log(response);
-      setCars(response.data);
+      setNewCars(response.data);
     } catch (error) {
       console.error("Error fetching data:", error);
     }
@@ -47,7 +47,7 @@ function ParkList() {
         </thead>
         <tbody>
           {/* // 오류 해결해야함 */}
-          {cars.map((car) => (
+          {newCars.map((car) => (
             <tr key={car.id}>
               <th className="border border-slate-700">
                 <Link to={`car/${car.car_no}`}>

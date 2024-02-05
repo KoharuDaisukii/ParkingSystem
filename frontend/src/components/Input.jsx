@@ -2,7 +2,7 @@ import { useState } from "react";
 import { regionList } from "./regionList";
 import { spaceList } from "./spaceList";
 import { spotList } from "./spotList";
-function Input({ onSubmit, onClick, onChange }) {
+function Input({ onSubmit, onClick, onChange, onSearch }) {
   return (
     <div className="inputConainer flex justify-center">
       <form
@@ -95,7 +95,11 @@ function Input({ onSubmit, onClick, onChange }) {
               <span className="text-xl font-bold">입차</span>
             </button>
 
-            <button className="bg-green-400 hover:bg-green-500 h-20 w-20 rounded-3xl">
+            <button
+              type="button"
+              onClick={onSearch}
+              className="bg-green-400 hover:bg-green-500 h-20 w-20 rounded-3xl"
+            >
               <span className="text-xl font-bold">조회</span>
             </button>
             <button

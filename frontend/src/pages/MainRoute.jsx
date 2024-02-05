@@ -6,13 +6,16 @@ import { formatToISO8601 } from "../utils/convertISO";
 import axios from "axios";
 import LoginNav from "../components/LoginNav";
 function MainRoute() {
+  const [cars, setCars] = useState([]);
   const [files, setFiles] = useState(undefined);
 
+  useEffect(() => {
+    handleSearch();
+  }, []);
   function handleFileChange(e) {
     // console.log(e.target.files[0]);
     setFiles(e.target.files[0]);
   }
-  const [cars, setCars] = useState([]);
 
   //폼 제출 시 데이터베이스에 차량 추가(입차등록)
   const handleSubmit = async (e) => {
@@ -59,9 +62,18 @@ function MainRoute() {
   //미납차량 조회를 위한 함수
   const handleClick = async () => {
     const response = await axios.get("/history/unpaid");
-    console.log("미납차량정보", response.data);
+    console.log("미납차량정보", response);
     setCars(response.data);
+    console.log(cars);
   };
+  //전체차량 조회를 위한 함수
+  const handleSearch = async () => {
+    const response = await axios.get("/history/all");
+    console.log("전체차량정보", response.data);
+    setCars(response.data);
+    console.log(cars);
+  };
+
   return (
     <div>
       <div className="flex-col">
@@ -71,9 +83,10 @@ function MainRoute() {
           onSubmit={handleSubmit}
           onClick={handleClick}
           onChange={handleFileChange}
+          onSearch={handleSearch}
           files={files}
         />
-        <ParkList cars={cars} setCars={setCars} />
+        <ParkList cars={cars} />
       </div>
     </div>
   );
