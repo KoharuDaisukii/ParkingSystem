@@ -1,1 +1,1 @@
-export const spaceList = [1, 2, 3];
+export const spaceList = ["섹터", 1, 2, 3];
