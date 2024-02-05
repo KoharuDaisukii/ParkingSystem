@@ -5,23 +5,31 @@ import { Link } from "react-router-dom";
 import { regionList } from "./regionList";
 import { putData } from "../utils/putData";
 import { formatToISO8601 } from "../utils/convertISO";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import axios from "axios";
+function ParkList() {
+  const [cars, setCars] = useState([]);
+  useEffect(() => {
+    getData();
+  }, []);
 
-function ParkList({ cars }) {
-  const [parkingCars, setParkingCars] = useState(cars);
-
-  const handleExit = (carId) => {
-    const updatedCars = parkingCars.map((car) => {
-      if (car.id === carId && car.exit_time === null) {
-        const updatedCar = { ...car, exit_time: formatToISO8601(new Date()) };
-        putData(car.id, updatedCar.exit_time);
-        return updatedCar;
-      }
-      return car;
-    });
-
-    setParkingCars(updatedCars);
+  const handleExit = async (carId) => {
+    if (cars.some((car) => car.id === carId && car.exit_time === null)) {
+      await putData(carId, formatToISO8601(new Date()));
+      getData(); // Update data after exit
+      alert(formatToISO8601(new Date()));
+    }
   };
+
+  async function getData() {
+    try {
+      const response = await axios.get("/history/all");
+      console.log(response);
+      setCars(response.data);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  }
 
   return (
     <div className="flex justify-center">
@@ -39,7 +47,7 @@ function ParkList({ cars }) {
         </thead>
         <tbody>
           {/* // 오류 해결해야함 */}
-          {parkingCars.map((car) => (
+          {cars.map((car) => (
             <tr key={car.id}>
               <th className="border border-slate-700">
                 <Link to={`car/${car.car_no}`}>
@@ -79,12 +87,17 @@ function ParkList({ cars }) {
                 )}
               </th>
               <th className="border border-slate-700">
-                {getTimeDiffByMin(car.exit_time, car.enter_time) >= 1
-                  ? getTimeDiffByMin(car.exit_time, car.enter_time) + "분"
+                {getTimeDiffByMin(car.exit_time, car.enter_time) >= 1 ||
+                getTimeDiffByMin(car.exit_time, car.enter_time) < -1
+                  ? Math.abs(getTimeDiffByMin(car.exit_time, car.enter_time)) +
+                    "분"
                   : ""}
               </th>
               <th className="border border-slate-700 bg-green-200">
-                {fareCal(getTimeDiffByMin(car.exit_time, car.enter_time))}원
+                {fareCal(
+                  Math.abs(getTimeDiffByMin(car.exit_time, car.enter_time))
+                )}
+                원
               </th>
             </tr>
           ))}

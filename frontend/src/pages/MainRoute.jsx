@@ -55,7 +55,7 @@ function MainRoute() {
     //파일 업로드를 위한 코드
 
     // console.log(carPhoto);
-    if (data.carNum !== null && data.carNum !== "") {
+    if (data.car_no !== null && data.car_no !== "") {
       const response = await axios.post("/park/in", formData);
       console.log("response", response);
       setCars(response.data);
