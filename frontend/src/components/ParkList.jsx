@@ -16,9 +16,9 @@ function ParkList() {
   const handleExit = async (carId) => {
     if (cars.some((car) => car.id === carId && car.exit_time === null)) {
       await putData(carId, formatToISO8601(new Date()));
-      getData(); // Update data after exit
       alert(formatToISO8601(new Date()));
     }
+    await getData(); // Update data after exit
   };
 
   async function getData() {
@@ -87,16 +87,22 @@ function ParkList() {
                 )}
               </th>
               <th className="border border-slate-700">
-                {getTimeDiffByMin(car.exit_time, car.enter_time) >= 1 ||
-                getTimeDiffByMin(car.exit_time, car.enter_time) < -1
+                {car.exit_time !== null &&
+                (getTimeDiffByMin(car.exit_time, car.enter_time) >= 1 ||
+                  getTimeDiffByMin(car.exit_time, car.enter_time) <= -1)
                   ? Math.abs(getTimeDiffByMin(car.exit_time, car.enter_time)) +
                     "분"
                   : ""}
               </th>
               <th className="border border-slate-700 bg-green-200">
-                {fareCal(
-                  Math.abs(getTimeDiffByMin(car.exit_time, car.enter_time))
-                )}
+                {car.exit_time === null
+                  ? fareCal(
+                      Math.abs(getTimeDiffByMin(new Date(), car.enter_time)) -
+                        30 * 500
+                    )
+                  : fareCal(
+                      Math.abs(getTimeDiffByMin(car.exit_time, car.enter_time))
+                    )}
                 원
               </th>
             </tr>

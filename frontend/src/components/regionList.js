@@ -1,5 +1,4 @@
 export const regionList = [
-  "선택",
   "서울",
   "경기",
   "인천",

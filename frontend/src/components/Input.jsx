@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { regionList } from "./regionList";
-import { sectorList } from "./sectorList";
+import { spaceList } from "./spaceList";
+import { spotList } from "./spotList";
 function Input({ onSubmit, onClick, onChange }) {
   return (
     <div className="inputConainer flex justify-center">
@@ -20,16 +21,16 @@ function Input({ onSubmit, onClick, onChange }) {
           />
           <div className="selectContainer flex justify-around my-2">
             <select name="park_area" id="park_area" className="w-36">
-              {sectorList.map((sectorItem, index) => (
+              {spaceList.map((sectorItem, index) => (
                 <option value={sectorItem} key={index}>
                   {sectorItem}
                 </option>
               ))}
             </select>
             <select name="park_spot" id="park_spot" className="w-36">
-              {sectorList.map((sectorItem, index) => (
-                <option value={sectorItem} key={index}>
-                  {sectorItem}
+              {spotList.map((spot, index) => (
+                <option value={spot} key={index}>
+                  {spot}
                 </option>
               ))}
             </select>
@@ -38,9 +39,7 @@ function Input({ onSubmit, onClick, onChange }) {
               id="car_region_name"
               className="mx-1 w-36"
             >
-              <option disabled hidden selected>
-                지역명
-              </option>
+              <option>선택</option>
               {regionList.map((regionItem, index) => (
                 <option value={regionItem} key={index}>
                   {regionItem}

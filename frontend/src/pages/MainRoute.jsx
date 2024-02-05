@@ -13,16 +13,7 @@ function MainRoute() {
     setFiles(e.target.files[0]);
   }
   const [cars, setCars] = useState([]);
-  useEffect(() => {
-    getData();
-  }, []);
 
-  async function getData() {
-    // try {
-    const response = await axios.get("/history/all");
-    console.log(response);
-    setCars(response.data);
-  }
   //폼 제출 시 데이터베이스에 차량 추가(입차등록)
   const handleSubmit = async (e) => {
     e.preventDefault();
