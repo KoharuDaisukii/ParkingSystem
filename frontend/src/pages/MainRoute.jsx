@@ -2,10 +2,20 @@ import Input from "../components/Input";
 import ParkList from "../components/ParkList";
 import { useState, useEffect } from "react";
 import { formatToISO8601 } from "../utils/convertISO";
-
+import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import LoginNav from "../components/LoginNav";
+import Login from "./Login";
+import { authActions } from "../store/auth";
 function MainRoute() {
+  //로그인 관련
+  const isAuth = useSelector((state) => state.isAuthenticated);
+  const dispatch = useDispatch();
+  const logoutHandler = (e) => {
+    e.preventDefault();
+    dispatch(authActions.logout());
+  };
+
   const [cars, setCars] = useState([]);
   const [files, setFiles] = useState(undefined);
 
@@ -78,7 +88,7 @@ function MainRoute() {
     <div>
       <div className="flex-col">
         <LoginNav />
-
+        {isAuth && <button onClick={logoutHandler}>로그아웃</button>}
         <Input
           onSubmit={handleSubmit}
           onClick={handleClick}
@@ -86,7 +96,8 @@ function MainRoute() {
           onSearch={handleSearch}
           files={files}
         />
-        <ParkList cars={cars} />
+        {!isAuth && <Login />}
+        {isAuth && <ParkList cars={cars} />}
       </div>
     </div>
   );
