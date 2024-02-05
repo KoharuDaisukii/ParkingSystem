@@ -1,7 +1,8 @@
 import { useState } from "react";
 import { regionList } from "./regionList";
-import { sectorList } from "./sectorList";
-function Input({ onSubmit, onClick, onChange }) {
+import { spaceList } from "./spaceList";
+import { spotList } from "./spotList";
+function Input({ onSubmit, onClick, onChange, onSearch }) {
   return (
     <div className="inputConainer flex justify-center">
       <form
@@ -19,17 +20,22 @@ function Input({ onSubmit, onClick, onChange }) {
             required
           />
           <div className="selectContainer flex justify-around my-2">
-            <select name="park_area" id="park_area" className="w-36">
-              {sectorList.map((sectorItem, index) => (
+            <select
+              name="park_area"
+              id="park_area"
+              className="w-36 mr-2"
+              required
+            >
+              {spaceList.map((sectorItem, index) => (
                 <option value={sectorItem} key={index}>
                   {sectorItem}
                 </option>
               ))}
             </select>
-            <select name="park_spot" id="park_spot" className="w-36">
-              {sectorList.map((sectorItem, index) => (
-                <option value={sectorItem} key={index}>
-                  {sectorItem}
+            <select name="park_spot" id="park_spot" className="w-36" required>
+              {spotList.map((spot, index) => (
+                <option value={spot} key={index}>
+                  {spot}
                 </option>
               ))}
             </select>
@@ -37,10 +43,8 @@ function Input({ onSubmit, onClick, onChange }) {
               name="car_region_name"
               id="car_region_name"
               className="mx-1 w-36"
+              required
             >
-              <option disabled hidden selected>
-                지역명
-              </option>
               {regionList.map((regionItem, index) => (
                 <option value={regionItem} key={index}>
                   {regionItem}
@@ -56,6 +60,7 @@ function Input({ onSubmit, onClick, onChange }) {
             className="my-3 text-center"
             accept=".png, .jpeg, .jpg"
             onChange={onChange}
+            required
           />
         </div>
         <div className="carData text-xs flex-col justify-center items-center">
@@ -90,10 +95,15 @@ function Input({ onSubmit, onClick, onChange }) {
               <span className="text-xl font-bold">입차</span>
             </button>
 
-            <button className="bg-green-400 hover:bg-green-500 h-20 w-20 rounded-3xl">
+            <button
+              type="button"
+              onClick={onSearch}
+              className="bg-green-400 hover:bg-green-500 h-20 w-20 rounded-3xl"
+            >
               <span className="text-xl font-bold">조회</span>
             </button>
             <button
+              type="button"
               onClick={onClick}
               className="bg-orange-400 hover:bg-orange-500 h-20 w-20 rounded-3xl"
             >
