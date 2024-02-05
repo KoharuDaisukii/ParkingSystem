@@ -88,15 +88,24 @@ function MainRoute() {
     <div>
       <div className="flex-col">
         {isAuth && <button onClick={logoutHandler}>로그아웃</button>}
-        <Input
-          onSubmit={handleSubmit}
-          onClick={handleClick}
-          onChange={handleFileChange}
-          onSearch={handleSearch}
-          files={files}
-        />
-        {!isAuth && <Login />}
-        {isAuth && <ParkList cars={cars} />}
+
+        {!isAuth && (
+          <>
+            <Login />
+          </>
+        )}
+        {isAuth && (
+          <>
+            <Input
+              onSubmit={handleSubmit}
+              onClick={handleClick}
+              onChange={handleFileChange}
+              onSearch={handleSearch}
+              files={files}
+            />
+            <ParkList cars={cars} />
+          </>
+        )}
       </div>
     </div>
   );
