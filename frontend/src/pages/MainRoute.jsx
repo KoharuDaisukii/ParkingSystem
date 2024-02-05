@@ -87,7 +87,6 @@ function MainRoute() {
   return (
     <div>
       <div className="flex-col">
-        <LoginNav />
         {isAuth && <button onClick={logoutHandler}>로그아웃</button>}
         <Input
           onSubmit={handleSubmit}
