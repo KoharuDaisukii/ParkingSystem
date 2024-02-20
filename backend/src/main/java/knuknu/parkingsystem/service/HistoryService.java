@@ -6,6 +6,7 @@ import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import knuknu.parkingsystem.controller.ExitTimeUpdateForm;
 import knuknu.parkingsystem.controller.HistoryForm;
 import knuknu.parkingsystem.domain.History;
 import knuknu.parkingsystem.repository.HistoryRepository;
@@ -20,8 +21,13 @@ public class HistoryService {
 	}
 
 	// 주차
-	public int park(HistoryForm historyForm) {
+	public int parkIn(HistoryForm historyForm) {
 		return historyRepository.save(historyForm);
+	}
+	
+	// 출차
+	public Optional<History> parkOut(ExitTimeUpdateForm exitTimeUpdateForm) {
+		return historyRepository.updateExitTime(exitTimeUpdateForm);
 	}
 
 	// 전체 주차 내역 조회
@@ -35,7 +41,11 @@ public class HistoryService {
 	}
 	
 	// 사진 조회
-	public byte[] findImage(int id){
-		return historyRepository.findPhotoById(id);
+	public byte[] findImage(int id, byte res){
+		return historyRepository.findPhotoById(id, res);
+	}
+
+	public Optional<History> findHistoryById(int id) {
+		return historyRepository.findHistoryById(id);
 	}
 }

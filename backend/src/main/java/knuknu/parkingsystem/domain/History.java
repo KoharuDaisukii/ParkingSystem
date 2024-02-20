@@ -10,7 +10,6 @@ public class History {
 	private String admin_id;
 	private byte park_area;
 	private byte park_spot;
-	private byte car_region_no;
 	private String car_no;
 	private Timestamp enter_time;
 	private Timestamp exit_time;
