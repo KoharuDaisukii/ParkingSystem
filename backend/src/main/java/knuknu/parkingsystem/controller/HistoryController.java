@@ -47,8 +47,8 @@ public class HistoryController {
 	}
 
 	@GetMapping(value = "/image", produces = MediaType.IMAGE_JPEG_VALUE)
-	public byte[] getImage(@RequestParam(value = "id", defaultValue = "1") int id) {
-		return historyService.findImage(id);
+	public byte[] getImage(@RequestParam(value = "id", defaultValue = "1") int id, @RequestParam("resolution") byte res) {
+		return historyService.findImage(id, res);
 	}
 	
 	@PostMapping(value = "/park/in", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
@@ -60,6 +60,6 @@ public class HistoryController {
 	@PutMapping("/park/out")
 	public Optional<History> updateExitTime(ExitTimeUpdateForm exitTimeUpdateForm)
 	{
-		return historyService.parkOut(exitTimeUpdateForm.getId(), exitTimeUpdateForm.getExit_time());
+		return historyService.parkOut(exitTimeUpdateForm);
 	}
 }

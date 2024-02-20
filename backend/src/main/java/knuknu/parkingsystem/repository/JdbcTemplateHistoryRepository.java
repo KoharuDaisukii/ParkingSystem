@@ -1,6 +1,9 @@
 package knuknu.parkingsystem.repository;
 
+import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -14,10 +17,10 @@ import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
+import javax.imageio.ImageIO;
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
@@ -26,8 +29,10 @@ import org.springframework.stereotype.Repository;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.web.multipart.MultipartFile;
 
+import knuknu.parkingsystem.controller.ExitTimeUpdateForm;
 import knuknu.parkingsystem.controller.HistoryForm;
 import knuknu.parkingsystem.domain.History;
+import knuknu.parkingsystem.service.ImageUtil;
 
 @Repository
 public class JdbcTemplateHistoryRepository implements HistoryRepository {
@@ -44,32 +49,31 @@ public class JdbcTemplateHistoryRepository implements HistoryRepository {
 	public int save(HistoryForm historyForm) {
 		KeyHolder keyHolder = new GeneratedKeyHolder();
 		String sql = "";
-		
+
 		System.out.println(historyForm);
 		jdbcTemplate.update(connection -> {
 			PreparedStatement pstmt = connection.prepareStatement(
-					"INSERT INTO HISTORY(admin_id, park_area, park_spot, car_region_no, car_no, enter_time) VALUES(?, ?, ?, (SELECT region_no FROM CAR_REGION WHERE region_name = ?), ?, ?)",
+					"INSERT INTO HISTORY(admin_id, park_area, park_spot, car_no, enter_time) VALUES(?, ?, ?, ?, ?)",
 					Statement.RETURN_GENERATED_KEYS);
 			pstmt.setString(1, historyForm.getAdmin_id());
 			pstmt.setByte(2, historyForm.getPark_area());
 			pstmt.setByte(3, historyForm.getPark_spot());
-			pstmt.setString(4, historyForm.getCar_region_name());
-			pstmt.setString(5, historyForm.getCar_no());
-			pstmt.setTimestamp(6, Timestamp.valueOf(historyForm.getEnter_time()));
+			pstmt.setString(4, historyForm.getCar_no());
+			pstmt.setTimestamp(5, Timestamp.valueOf(historyForm.getEnter_time()));
 			return pstmt;
 		}, keyHolder);
 
-		MultipartFile file = historyForm.getPhoto();
-		String origin = file.getOriginalFilename();
+		MultipartFile multipartFile = historyForm.getPhoto();
+		String origin = multipartFile.getOriginalFilename();
 		String ext = origin.substring(origin.lastIndexOf("."));
 
 		// 폴더 생성
-		//String filepath = makeDir();
+		// String filepath = makeDir();
 		// Windows
-		//String filepath = "C:\\Spring-study\\images";
+		// String filepath = "C:\\Spring-study\\images";
 		// Ubuntu
 		String filepath = "/home/bong19262/images";
-		
+
 		// 다른 방식이 있나? CHAR6칸 더쓰기 VS 테이블 2개 join
 		Date date = new Date();
 		SimpleDateFormat sdf = new SimpleDateFormat("yyMMdd");
@@ -77,22 +81,42 @@ public class JdbcTemplateHistoryRepository implements HistoryRepository {
 		// 중복 파일 처리
 		String uuid = UUID.randomUUID().toString();
 		// Windows
-		//String savename = filepath + "\\" + fileDate + uuid + ext;
+		// String savename = filepath + "\\" + fileDate + uuid + ext;
 		// Ubuntu
-		String savename = filepath + "/" + fileDate + uuid + ext;
-
+		String savePhotoName = fileDate + uuid + ext;
+		String saveThumbName = filepath + "/thumb/T" + fileDate + uuid + ext;
+		String saveFullName = filepath + "/original/O" + fileDate + uuid + ext;
 		// 콘솔 출력
 		// System.out.println(filename);
 		// System.out.println(filepath);
 		// System.out.println(uuid);
 		// System.out.println(savename);
 
-		File saveFile = new File(savename);
-
+		File saveFullFile = new File(saveFullName);
 		try {
-			file.transferTo(saveFile);
-		} catch (Exception e) {
-			System.err.println(e.getMessage());
+			ImageUtil originalImage = new ImageUtil(multipartFile);
+			ImageUtil fullImage = originalImage.resize(300);
+			FileOutputStream out = new FileOutputStream(saveFullFile);
+			fullImage.writeTo(out, "jpg");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		File saveThumbFile = new File(saveThumbName);
+		try {
+			ImageUtil originalImage = new ImageUtil(multipartFile);
+			ImageUtil thumbImage = null;
+			int width = originalImage.getWidth();
+			int height = originalImage.getHeight();
+			if (width >= height)
+				thumbImage = originalImage.crop((width - height) / 2, 0, height, height);
+			else
+				thumbImage = originalImage.crop((height - width) / 2, 0, width, width);
+			thumbImage = thumbImage.resize(100);
+			FileOutputStream out = new FileOutputStream(saveThumbFile);
+			thumbImage.writeTo(out, "jpg");
+		} catch (IOException e) {
+			e.printStackTrace();
 		}
 
 		/*
@@ -108,9 +132,11 @@ public class JdbcTemplateHistoryRepository implements HistoryRepository {
 
 		return 1;
 	}
-	
+
 	@Override
-	public Optional<History> updateExitTime(int id, @DateTimeFormat(pattern = "yyyy-MM-dd'T'HH:mm:ss") LocalDateTime exit_time) {
+	public Optional<History> updateExitTime(ExitTimeUpdateForm exitTimeUpdateForm) {
+		int id = exitTimeUpdateForm.getId();
+		LocalDateTime exit_time = exitTimeUpdateForm.getExit_time();
 		jdbcTemplate.update("UPDATE HISTORY SET exit_time = ? WHERE id = ?", exit_time, id);
 		List<History> result = jdbcTemplate.query("SELECT * FROM HISTORY WHERE id = ?", historyRowMapper(), id);
 		return result.stream().findAny();
@@ -123,16 +149,21 @@ public class JdbcTemplateHistoryRepository implements HistoryRepository {
 	}
 
 	@Override
-	public byte[] findPhotoById(int id) {
+	// low: 0, high: 1
+	public byte[] findPhotoById(int id, byte res) {
 		String sql = "SELECT image_name FROM PARK_IMAGE WHERE history_id = ?";
 		String imageName = jdbcTemplate.queryForObject(sql, String.class, id);
 		System.out.println(imageName);
 		byte[] result = null;
 		try {
 			// Windows
-			//result = FileCopyUtils.copyToByteArray(new File("C:\\Spring-study\\images\\" + imageName));
+			// result = FileCopyUtils.copyToByteArray(new File("C:\\Spring-study\\images\\"
+			// + imageName));
 			// Ubuntu
-			result = FileCopyUtils.copyToByteArray(new File("/home/bong19262/images/" + imageName));
+			if (res == 0) // thumbnail
+				result = FileCopyUtils.copyToByteArray(new File("/home/bong19262/images/thumb/T" + imageName));
+			else if (res == 1)
+				result = FileCopyUtils.copyToByteArray(new File("/home/bong19262/images/original/O" + imageName));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -168,7 +199,6 @@ public class JdbcTemplateHistoryRepository implements HistoryRepository {
 				history.setAdmin_id(rs.getString("admin_id"));
 				history.setPark_area(rs.getByte("park_area"));
 				history.setPark_spot(rs.getByte("park_spot"));
-				history.setCar_region_no(rs.getByte("car_region_no"));
 				history.setCar_no(rs.getString("car_no"));
 				history.setEnter_time(rs.getTimestamp("enter_time"));
 				history.setExit_time(rs.getTimestamp("exit_time"));
@@ -184,7 +214,7 @@ public class JdbcTemplateHistoryRepository implements HistoryRepository {
 		String now = sdf.format(date);
 
 		// Windows
-		//String path = "C:\\Spring-study" + "\\" + now;
+		// String path = "C:\\Spring-study" + "\\" + now;
 		// Ubuntu
 		String path = "/home/bong19262/images" + "/" + now;
 		File file = new File(path);
